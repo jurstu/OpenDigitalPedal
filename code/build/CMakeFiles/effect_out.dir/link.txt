@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/effect_out.dir/src/main.cpp.o  -o effect_out  /usr/lib/arm-linux-gnueabihf/libportaudio.so 
