@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/effect_out.dir/src/filter.cpp.o"
   "CMakeFiles/effect_out.dir/src/main.cpp.o"
   "effect_out"
   "effect_out.pdb"

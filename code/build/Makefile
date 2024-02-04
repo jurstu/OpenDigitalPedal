@@ -123,6 +123,33 @@ effect_out/fast:
 	$(MAKE) -f CMakeFiles/effect_out.dir/build.make CMakeFiles/effect_out.dir/build
 .PHONY : effect_out/fast
 
+src/filter.o: src/filter.cpp.o
+
+.PHONY : src/filter.o
+
+# target to build an object file
+src/filter.cpp.o:
+	$(MAKE) -f CMakeFiles/effect_out.dir/build.make CMakeFiles/effect_out.dir/src/filter.cpp.o
+.PHONY : src/filter.cpp.o
+
+src/filter.i: src/filter.cpp.i
+
+.PHONY : src/filter.i
+
+# target to preprocess a source file
+src/filter.cpp.i:
+	$(MAKE) -f CMakeFiles/effect_out.dir/build.make CMakeFiles/effect_out.dir/src/filter.cpp.i
+.PHONY : src/filter.cpp.i
+
+src/filter.s: src/filter.cpp.s
+
+.PHONY : src/filter.s
+
+# target to generate assembly for a file
+src/filter.cpp.s:
+	$(MAKE) -f CMakeFiles/effect_out.dir/build.make CMakeFiles/effect_out.dir/src/filter.cpp.s
+.PHONY : src/filter.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... effect_out"
 	@echo "... edit_cache"
+	@echo "... src/filter.o"
+	@echo "... src/filter.i"
+	@echo "... src/filter.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

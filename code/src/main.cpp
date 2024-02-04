@@ -3,6 +3,9 @@
 #include <cstring>
 #include <cmath>
 
+#include "../inc/filter.h"
+
+
 #define SAMPLE_RATE 192000
 #define CHANNELS 2
 #define FRAMES_PER_BUFFER 64

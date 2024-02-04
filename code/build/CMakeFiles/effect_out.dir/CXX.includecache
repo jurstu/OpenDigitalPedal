@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/pi/OpenDigitalPedal/code/inc/filter.h
+vector
+-
+sampleType.h
+/home/pi/OpenDigitalPedal/code/inc/sampleType.h
+
+/home/pi/OpenDigitalPedal/code/inc/sampleType.h
+
 /home/pi/OpenDigitalPedal/code/src/main.cpp
 iostream
 -
@@ -15,4 +23,6 @@ cstring
 -
 cmath
 -
+../inc/filter.h
+/home/pi/OpenDigitalPedal/code/inc/filter.h
 
