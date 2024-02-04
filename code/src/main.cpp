@@ -25,18 +25,21 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
     for (int i = 0; i < FRAMES_PER_BUFFER; i++)
     {
         uint32_t* a = out + i;
-        z = fmax((int32_t)*a, z);
+        //z = fmax((int32_t)*a, z);
         *a *= 3;
         
-        if(indexx < SAMPLE_RATE/2)
+        if(indexx < SAMPLE_RATE)
         {
             int32_t in=*((int32_t*)a), out = 0;
             f->process(in, out);
             *a = out;
+            z = 1;
         }
+        else
+            z = 0;
         //z = (*a>>31) & 0x01;
         indexx++;
-        indexx=indexx%SAMPLE_RATE;
+        indexx=indexx%(SAMPLE_RATE*2);
 
     }
     memcpy(outputBuffer, inputBuffer, framesPerBuffer * CHANNELS * sizeof(uint32_t));
@@ -46,7 +49,19 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
 int main() {
     PaError err;
     
-    std::vector<float> vect{ 0.1, 0.1, 0.1, 0.1 };
+    std::vector<float> vect{  0.006979372451474281,
+  0.0007626387903709561,
+  -0.08083710305842673,
+  -0.18196149840834866,
+  -0.06108187078417545,
+  0.3184786604146606,
+  0.5447090129383919,
+  0.3184786604146606,
+  -0.06108187078417545,
+  -0.18196149840834866,
+  -0.08083710305842673,
+  0.0007626387903709561,
+  0.006979372451474281 };
     f = new Filter(vect);
     
     err = Pa_Initialize();

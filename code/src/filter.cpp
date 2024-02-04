@@ -19,7 +19,7 @@ void Filter::process(SAMPLE_TYPE &in, SAMPLE_TYPE& out)
     SAMPLE_TYPE ret = 0;
     for (int i = 0; i < filter_coefficients.size(); i++)
     {
-        ret += recent_samples[i] * filter_coefficients[i];   
+        ret += recent_samples[i] * filter_coefficients[filter_coefficients.size()-i-1];   
     }
     out = ret;
 }
