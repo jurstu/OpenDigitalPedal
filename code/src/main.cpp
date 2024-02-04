@@ -2,9 +2,9 @@
 #include "portaudio.h"
 #include <cstring>
 #include <cmath>
-
+#include <vector>
 #include "../inc/filter.h"
-
+#include <stdint.h>
 
 #define SAMPLE_RATE 192000
 #define CHANNELS 1 
@@ -12,6 +12,8 @@
 
 float z = 10;
 int32_t indexx = 1;
+Filter* f;
+
 // Callback function for the input stream
 int inputCallback(const void *inputBuffer, void *outputBuffer,
                    unsigned long framesPerBuffer,
@@ -25,9 +27,16 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
         uint32_t* a = out + i;
         z = fmax((int32_t)*a, z);
         *a *= 3;
-
+        
+        if(indexx < SAMPLE_RATE/2)
+        {
+            int32_t in=*((int32_t*)a), out = 0;
+            f->process(in, out);
+            *a = out;
+        }
         //z = (*a>>31) & 0x01;
-        //indexx++;
+        indexx++;
+        indexx=indexx%SAMPLE_RATE;
 
     }
     memcpy(outputBuffer, inputBuffer, framesPerBuffer * CHANNELS * sizeof(uint32_t));
@@ -36,7 +45,10 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
 
 int main() {
     PaError err;
-
+    
+    std::vector<float> vect{ 0.1, 0.1, 0.1, 0.1 };
+    f = new Filter(vect);
+    
     err = Pa_Initialize();
     if (err != paNoError) {
         std::cerr << "PortAudio initialization failed: " << Pa_GetErrorText(err) << std::endl;

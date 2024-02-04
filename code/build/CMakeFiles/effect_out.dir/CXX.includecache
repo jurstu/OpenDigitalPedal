@@ -11,8 +11,12 @@ vector
 -
 sampleType.h
 /home/pi/OpenDigitalPedal/code/inc/sampleType.h
+stdint.h
+-
 
 /home/pi/OpenDigitalPedal/code/inc/sampleType.h
+stdint.h
+-
 
 /home/pi/OpenDigitalPedal/code/src/main.cpp
 iostream
@@ -23,6 +27,10 @@ cstring
 -
 cmath
 -
+vector
+-
 ../inc/filter.h
 /home/pi/OpenDigitalPedal/code/inc/filter.h
+stdint.h
+-
 
