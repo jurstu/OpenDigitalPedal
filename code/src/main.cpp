@@ -4,7 +4,10 @@
 #include <cmath>
 #include <vector>
 #include "../inc/filter.h"
+#include "../inc/scale.h"
+#include "../inc/clip.h"
 #include <stdint.h>
+#include <RtMidi.h>
 
 #define SAMPLE_RATE 192000
 #define CHANNELS 1 
@@ -13,7 +16,8 @@
 float z = 10;
 int32_t indexx = 1;
 Filter* f;
-
+Scale* s;
+Clip* c;
 // Callback function for the input stream
 int inputCallback(const void *inputBuffer, void *outputBuffer,
                    unsigned long framesPerBuffer,
@@ -24,15 +28,20 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
     
     for (int i = 0; i < FRAMES_PER_BUFFER; i++)
     {
-        uint32_t* a = out + i;
+        int32_t* a = (int32_t*)(out + i);
         //z = fmax((int32_t)*a, z);
-        *a *= 3;
+        //*a *= 5;
+        s->process(*a, *a);
         
+
         if(indexx < SAMPLE_RATE)
         {
-            int32_t in=*((int32_t*)a), out = 0;
-            f->process(in, out);
-            *a = out;
+            //int32_t in=*((int32_t*)a), out = 0;
+            //f->process(in, out);
+            //*a = out;
+
+            c->process(*a, *a);
+
             z = 1;
         }
         else
@@ -46,24 +55,78 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
     return paContinue;
 }
 
+
+void errorCallback(RtMidiError::Type type, const std::string &errorText) {
+    // Handle errors
+    std::cerr << "Error: " << errorText << std::endl;
+}
+
 int main() {
+
+try {
+        RtMidiIn midiIn;
+        //midiIn.setErrorCallback(errorCallback);
+
+        // Check available ports
+        unsigned int numPorts = midiIn.getPortCount();
+        std::cout << "Available MIDI ports:" << std::endl;
+        for (unsigned int i = 0; i < numPorts; ++i) {
+            std::cout << "  " << i << ": " << midiIn.getPortName(i) << std::endl;
+        }
+
+        if (numPorts == 0) {
+            std::cerr << "No MIDI input ports found." << std::endl;
+            return 1;
+        }
+
+        // Open the first available port
+        midiIn.openPort(1);
+
+        // Don't ignore sysex, timing, or active sensing messages.
+        midiIn.ignoreTypes(false, false, false);
+
+        // Read MIDI input
+        std::vector<unsigned char> message;
+        while (true) {
+            midiIn.getMessage(&message);
+            // Process MIDI message
+            // Example: Print MIDI message bytes
+            for (unsigned int i = 0; i < message.size(); ++i) {
+                std::cout << "Byte " << i << " = " << (int)message[i] << std::endl;
+            }
+        }
+    } catch (RtMidiError &error) {
+        std::cerr << "Exception: " << error.getMessage() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
+
+
+
+int asdf(){
     PaError err;
     
-    std::vector<float> vect{  0.006979372451474281,
-  0.0007626387903709561,
-  -0.08083710305842673,
-  -0.18196149840834866,
-  -0.06108187078417545,
-  0.3184786604146606,
-  0.5447090129383919,
-  0.3184786604146606,
-  -0.06108187078417545,
-  -0.18196149840834866,
-  -0.08083710305842673,
-  0.0007626387903709561,
-  0.006979372451474281 };
+    std::vector<float> vect{  
+        0.006979372451474281,
+        0.0007626387903709561,
+        -0.08083710305842673,
+        -0.18196149840834866,
+        -0.06108187078417545,
+        0.3184786604146606,
+        0.5447090129383919,
+        0.3184786604146606,
+        -0.06108187078417545,
+        -0.18196149840834866,
+        -0.08083710305842673,
+        0.0007626387903709561,
+        0.006979372451474281 
+        };
     f = new Filter(vect);
-    
+    s = new Scale(5);
+    c = new Clip(1000000);
+
     err = Pa_Initialize();
     if (err != paNoError) {
         std::cerr << "PortAudio initialization failed: " << Pa_GetErrorText(err) << std::endl;
@@ -138,7 +201,8 @@ int main() {
     std::cout << "Live playback... (Press Ctrl+C to stop)" << std::endl;
 
     // Keep the program running until interrupted
-    while (true) {
+    while (true) 
+    {
         printf("%f\n", z);
         z = 0;
         Pa_Sleep(100);  // Sleep for a short duration to avoid high CPU usage

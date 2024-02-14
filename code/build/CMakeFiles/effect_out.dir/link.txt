@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/effect_out.dir/src/filter.cpp.o CMakeFiles/effect_out.dir/src/main.cpp.o  -o effect_out  /usr/lib/arm-linux-gnueabihf/libportaudio.so 
+/usr/bin/c++ CMakeFiles/effect_out.dir/src/clip.cpp.o CMakeFiles/effect_out.dir/src/filter.cpp.o CMakeFiles/effect_out.dir/src/main.cpp.o CMakeFiles/effect_out.dir/src/scale.cpp.o -o effect_out  /usr/lib/arm-linux-gnueabihf/libportaudio.so /usr/lib/arm-linux-gnueabihf/librtmidi.so 

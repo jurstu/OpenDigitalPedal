@@ -1,6 +1,12 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/effect_out.dir/src/clip.cpp.o"
+  "CMakeFiles/effect_out.dir/src/clip.cpp.o.d"
   "CMakeFiles/effect_out.dir/src/filter.cpp.o"
+  "CMakeFiles/effect_out.dir/src/filter.cpp.o.d"
   "CMakeFiles/effect_out.dir/src/main.cpp.o"
+  "CMakeFiles/effect_out.dir/src/main.cpp.o.d"
+  "CMakeFiles/effect_out.dir/src/scale.cpp.o"
+  "CMakeFiles/effect_out.dir/src/scale.cpp.o.d"
   "effect_out"
   "effect_out.pdb"
 )

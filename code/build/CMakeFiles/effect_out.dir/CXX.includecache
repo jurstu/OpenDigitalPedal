@@ -6,31 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/home/pi/OpenDigitalPedal/code/inc/filter.h
-vector
--
-sampleType.h
-/home/pi/OpenDigitalPedal/code/inc/sampleType.h
-stdint.h
--
-
-/home/pi/OpenDigitalPedal/code/inc/sampleType.h
-stdint.h
--
-
-/home/pi/OpenDigitalPedal/code/src/main.cpp
-iostream
--
-portaudio.h
-/home/pi/OpenDigitalPedal/code/src/portaudio.h
-cstring
--
-cmath
--
-vector
--
-../inc/filter.h
-/home/pi/OpenDigitalPedal/code/inc/filter.h
-stdint.h
--
-

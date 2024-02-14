@@ -1,3 +1,3 @@
-/home/pi/OpenDigitalPedal/code/build/CMakeFiles/rebuild_cache.dir
 /home/pi/OpenDigitalPedal/code/build/CMakeFiles/effect_out.dir
 /home/pi/OpenDigitalPedal/code/build/CMakeFiles/edit_cache.dir
+/home/pi/OpenDigitalPedal/code/build/CMakeFiles/rebuild_cache.dir
