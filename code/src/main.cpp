@@ -40,7 +40,7 @@ int inputCallback(const void *inputBuffer, void *outputBuffer,
             //f->process(in, out);
             //*a = out;
 
-            c->process(*a, *a);
+            //c->process(*a, *a);
 
             z = 1;
         }
@@ -63,49 +63,28 @@ void errorCallback(RtMidiError::Type type, const std::string &errorText) {
 
 int main() {
 
-try {
-        RtMidiIn midiIn;
-        //midiIn.setErrorCallback(errorCallback);
+    RtMidiIn midiIn;
+    //midiIn.setErrorCallback(errorCallback);
 
-        // Check available ports
-        unsigned int numPorts = midiIn.getPortCount();
-        std::cout << "Available MIDI ports:" << std::endl;
-        for (unsigned int i = 0; i < numPorts; ++i) {
-            std::cout << "  " << i << ": " << midiIn.getPortName(i) << std::endl;
-        }
+    // Check available ports
+    unsigned int numPorts = midiIn.getPortCount();
+    std::cout << "Available MIDI ports:" << std::endl;
+    for (unsigned int i = 0; i < numPorts; ++i) {
+        std::cout << "  " << i << ": " << midiIn.getPortName(i) << std::endl;
+    }
 
-        if (numPorts == 0) {
-            std::cerr << "No MIDI input ports found." << std::endl;
-            return 1;
-        }
-
-        // Open the first available port
-        midiIn.openPort(1);
-
-        // Don't ignore sysex, timing, or active sensing messages.
-        midiIn.ignoreTypes(false, false, false);
-
-        // Read MIDI input
-        std::vector<unsigned char> message;
-        while (true) {
-            midiIn.getMessage(&message);
-            // Process MIDI message
-            // Example: Print MIDI message bytes
-            for (unsigned int i = 0; i < message.size(); ++i) {
-                std::cout << "Byte " << i << " = " << (int)message[i] << std::endl;
-            }
-        }
-    } catch (RtMidiError &error) {
-        std::cerr << "Exception: " << error.getMessage() << std::endl;
+    if (numPorts == 0) {
+        std::cerr << "No MIDI input ports found." << std::endl;
         return 1;
     }
 
-    return 0;
-}
+    // Open the first available port
+    midiIn.openPort(1);
 
+    // Don't ignore sysex, timing, or active sensing messages.
+    midiIn.ignoreTypes(false, false, false);
 
-
-int asdf(){
+        // Read MIDI input
     PaError err;
     
     std::vector<float> vect{  
@@ -199,6 +178,35 @@ int asdf(){
     }
 
     std::cout << "Live playback... (Press Ctrl+C to stop)" << std::endl;
+    std::vector<unsigned char> message;
+    while (true) {
+        Pa_Sleep(1);
+        midiIn.getMessage(&message);
+        // Process MIDI message
+        // Example: Print MIDI message bytes
+        //printf("loop\n");
+        //for (unsigned int i = 0; i < message.size(); ++i) {
+        //    std::cout << "Byte " << i << " = " << (int)message[i] << std::endl;
+        //}
+
+        if(message.size() >= 3)
+        {
+            if(message[0] == 176) // pots
+            {
+                if(message[1] == 23)
+                {
+                    s->scale = message[2] * 5 / 127;
+                }
+
+                if(message[1] == 24)
+                {
+                    //c->threshold = message[2] * 
+                }
+            }
+            printf("%d\n", message[1]);
+        }        
+    }
+
 
     // Keep the program running until interrupted
     while (true) 
